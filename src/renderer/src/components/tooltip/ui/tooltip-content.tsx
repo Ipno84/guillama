@@ -1,15 +1,16 @@
 import * as TooltipPrimitive from '@radix-ui/react-tooltip'
 import { cn } from '@renderer/lib/cn'
+import { TooltipPortal } from './tooltip-portal'
 
 const { Content, Arrow } = TooltipPrimitive
 
-export const TooltipContent = ({
+export const Tooltip = ({
   className,
   sideOffset = 0,
   children,
   ...props
 }: React.ComponentProps<typeof Content>): React.JSX.Element => (
-  <TooltipPrimitive.Portal>
+  <TooltipPortal>
     <Content
       data-slot="tooltip-content"
       sideOffset={sideOffset}
@@ -22,5 +23,5 @@ export const TooltipContent = ({
       {children}
       <Arrow className="bg-foreground fill-foreground z-50 size-2.5 translate-y-[calc(-50%_-_2px)] rotate-45 rounded-[2px]" />
     </Content>
-  </TooltipPrimitive.Portal>
+  </TooltipPortal>
 )
