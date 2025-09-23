@@ -9,11 +9,12 @@ export const Progress = ({
   value,
   ...props
 }: React.ComponentProps<typeof Root>): React.JSX.Element => {
-  const ref = useRef(null)
+  const ref = useRef<HTMLDivElement>(null)
+
   const translateX = useMemo(() => `-${100 - (value || 0)}%`, [value])
 
   useEffect(() => {
-    ref.current.style.setProperty('--translate-x', translateX)
+    ref.current?.style.setProperty('--translate-x', translateX)
   }, [translateX])
 
   return (

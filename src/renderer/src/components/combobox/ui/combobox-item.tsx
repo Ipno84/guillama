@@ -14,8 +14,8 @@ export const ComboboxItem = ({
 }: ComboboxItemProps): React.JSX.Element => {
   const onSelect = useCallback(
     (currentValue: string) => {
-      setValue(isSelected ? '' : currentValue)
-      if (closeOnSelect) setOpen(false)
+      setValue?.(isSelected ? '' : currentValue)
+      if (closeOnSelect) setOpen?.(false)
     },
     [closeOnSelect, isSelected, setOpen, setValue]
   )
