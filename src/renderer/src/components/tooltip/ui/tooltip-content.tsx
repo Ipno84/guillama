@@ -4,7 +4,7 @@ import { TooltipPortal } from './tooltip-portal'
 
 const { Content, Arrow } = TooltipPrimitive
 
-export const Tooltip = ({
+export const TooltipContent = ({
   className,
   sideOffset = 0,
   children,
