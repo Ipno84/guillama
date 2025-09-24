@@ -1,0 +1,6 @@
+export const OLLAMA_PS = 'ollama:ps'
+export const OLLAMA_HEALTH = 'ollama:health'
+export const OLLAMA_LIST = 'ollama:list'
+export const OLLAMA_REMOTE_LIST = 'ollama:remoteList'
+export const OLLAMA_DEL = 'ollama:del'
+export const OLLAMA_SHOW = 'ollama:show'

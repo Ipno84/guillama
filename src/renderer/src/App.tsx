@@ -1,5 +1,10 @@
-import { H1 } from '@renderer/components/typography'
+import { QueryProvider } from '@renderer/components/query-provider'
+import { Initializer } from '@renderer/features/initializer/ui/initializer'
 
 export const App: React.FC = () => {
-  return <H1>Hello</H1>
+  return (
+    <QueryProvider>
+      <Initializer />
+    </QueryProvider>
+  )
 }
