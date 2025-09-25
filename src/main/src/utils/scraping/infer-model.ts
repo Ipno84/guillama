@@ -1,17 +1,11 @@
 import { ItemResponseLike, ScrapedModel } from '@common/entities/ollama'
 import { detectModalitiesFromBadges } from './dete-modalities-from-badges'
 import { humanSizeToBytes } from './human-size-to-bytes'
-import { inferFamiliesFromText } from './infer-families-from-text'
 import { inferParamSizeFromSlugOrText } from './infer-param-side-from-slug-or-text'
 
-export const inferModel = (
-  slug: string,
-  data: ScrapedModel,
-  win: Electron.CrossProcessExports.BrowserWindow
-): ItemResponseLike => {
-  const { family, families } = inferFamiliesFromText(`${slug} ${data.title ?? ''} ${data.pageText}`)
+export const inferModel = (url: string, data: ScrapedModel): ItemResponseLike => {
   const parameter_size = inferParamSizeFromSlugOrText(
-    slug,
+    url,
     `${data.badges.join(' ')} ${data.pageText}`
   )
   const modalities = detectModalitiesFromBadges(data.badges)
@@ -23,16 +17,14 @@ export const inferModel = (
   }))
 
   const model = {
-    name: slug,
-    model: slug,
+    name: url,
+    model: url,
     details: {
-      family,
-      families,
       parameter_size,
       modalities
     },
     remote: {
-      url: win.webContents.getURL(),
+      url: data.url,
       title: data.title,
       summary: data.summary,
       pullsText: data.pullsText,

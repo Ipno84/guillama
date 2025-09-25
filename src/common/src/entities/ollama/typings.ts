@@ -7,8 +7,6 @@ export interface CheckOllama {
 export type ItemResponseLikeDetails = {
   parent_model?: string
   format?: string
-  family?: string
-  families?: string[]
   parameter_size?: string
   quantization_level?: string
   modalities?: string[]
@@ -52,4 +50,18 @@ export type ScrapedModel = {
   tagsText?: string
   tagRows: TagRow[]
   pageText: string
+  url: string
+}
+
+export type ModelBasicInfo = {
+  url?: string
+  tagsUrl?: string
+  name?: string
+  description?: string
+  capabilities?: string[]
+  sizes?: string[]
+  badges?: string[]
+  pullCount?: string
+  tagsCount?: string
+  lastUpdate?: Date
 }

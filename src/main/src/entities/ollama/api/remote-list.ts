@@ -1,6 +1,6 @@
-import { scrapeOllamaLibraries } from '@main/utils/scraping'
-import { ItemResponseLike } from '@common/entities/ollama'
+import { getModelsBasicInfo } from '@main/utils/scraping'
+import { ModelBasicInfo } from '@common/entities/ollama'
 
-export const remoteList = async (): Promise<ItemResponseLike[]> => {
-  return await scrapeOllamaLibraries()
+export const remoteList = async (): Promise<ModelBasicInfo[]> => {
+  return await getModelsBasicInfo()
 }

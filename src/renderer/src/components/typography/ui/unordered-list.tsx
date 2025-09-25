@@ -6,7 +6,10 @@ export const Ul = ({
   ...props
 }: React.ComponentProps<'ul'>): React.JSX.Element => {
   return (
-    <ul className={cn('my-6 ml-6 list-disc [&>li]:mt-2', className)} {...props}>
+    <ul
+      className={cn('my-6 ml-6 list-disc [&>li]:mt-2 text-card-foreground', className)}
+      {...props}
+    >
       {children}
     </ul>
   )

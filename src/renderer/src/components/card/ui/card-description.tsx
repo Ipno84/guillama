@@ -6,7 +6,7 @@ export const CardDescription = ({
 }: React.ComponentProps<'div'>): React.JSX.Element => (
   <div
     data-slot="card-description"
-    className={cn('text-muted-foreground text-sm', className)}
+    className={cn('text-card-foreground text-sm font-light', className)}
     {...props}
   />
 )

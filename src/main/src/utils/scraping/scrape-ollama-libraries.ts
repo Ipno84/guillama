@@ -1,28 +1,37 @@
 import { ItemResponseLike } from '@common/entities/ollama'
-import { createHiddenWindow } from './create-hidden-window'
-import { getModelSlugs } from './get-model-slugs'
+import { getModelUrls } from './get-model-urls'
 import { inferModel } from './infer-model'
 import { scrapeModel } from './scrape-model'
-import { sleep } from './../sleep'
+import { sleep } from '@common/utils/sleep'
+
+const concurrency = 6
+const chunkDelayMs = 350
 
 export async function scrapeOllamaLibraries(): Promise<ItemResponseLike[]> {
-  const win = await createHiddenWindow()
-  try {
-    const slugs = await getModelSlugs(win)
+  let urls = await getModelUrls()
+  // TODO: remove below limit
+  urls = urls.slice(0, 5)
 
-    const models: ItemResponseLike[] = []
-    for (const [i, slug] of slugs.entries()) {
-      const data = await scrapeModel(win, slug)
+  const models: ItemResponseLike[] = []
 
-      const model = inferModel(slug, data, win)
+  for (let i = 0; i < urls.length; i += concurrency) {
+    const chunk = urls.slice(i, i + concurrency)
 
-      models.push(model)
+    const settled = await Promise.allSettled(
+      chunk.map(async (url) => {
+        const data = await scrapeModel(url)
+        return inferModel(url, data)
+      })
+    )
 
-      if ((i + 1) % 5 === 0) await sleep(350)
+    for (const s of settled) {
+      if (s.status === 'fulfilled' && s.value) models.push(s.value)
     }
 
-    return models
-  } finally {
-    win.destroy()
+    if (i + concurrency < urls.length && chunkDelayMs > 0) {
+      await sleep(chunkDelayMs)
+    }
   }
+
+  return models
 }

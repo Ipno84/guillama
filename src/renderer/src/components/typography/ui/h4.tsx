@@ -6,7 +6,10 @@ export const H4 = ({
   ...props
 }: React.ComponentProps<'h4'>): React.JSX.Element => {
   return (
-    <h4 className={cn('scroll-m-20 text-xl font-semibold tracking-tight', className)} {...props}>
+    <h4
+      className={cn('text-xl font-semibold tracking-tight text-foreground', className)}
+      {...props}
+    >
       {children}
     </h4>
   )

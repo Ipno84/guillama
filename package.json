@@ -52,10 +52,12 @@
     "ollama": "^0.5.18",
     "pnpm": "^10.17.1",
     "react-resizable-panels": "^3.0.6",
+    "react-router": "^7.9.2",
     "sonner": "^2.0.7",
     "tailwind-merge": "^3.3.1",
     "tailwindcss": "^4.1.13",
-    "vaul": "^1.1.2"
+    "vaul": "^1.1.2",
+    "zustand": "^5.0.8"
   },
   "devDependencies": {
     "@electron-toolkit/eslint-config-prettier": "^3.0.0",

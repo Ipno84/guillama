@@ -4,5 +4,9 @@ export const CardTitle = ({
   className,
   ...props
 }: React.ComponentProps<'div'>): React.JSX.Element => (
-  <div data-slot="card-title" className={cn('leading-none font-semibold', className)} {...props} />
+  <div
+    data-slot="card-title"
+    className={cn('font-black text-2xl text-card-foreground', className)}
+    {...props}
+  />
 )

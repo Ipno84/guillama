@@ -1,10 +1,10 @@
-import { BrowserWindow } from 'electron'
 import { evalJS } from './eval-js'
 import { ScrapedModel } from '@common/entities/ollama'
+import { createHiddenWindow } from './create-hidden-window'
 
 const evalJsCallback = (): ScrapedModel => {
-  const title = document.querySelector('h1')?.textContent?.trim() || undefined
-  const summary = document.querySelector('main p')?.textContent?.trim() || undefined
+  const title = document.querySelector('[x-test-model-name]')?.textContent?.trim() || undefined
+  const summary = document.querySelector('#summary-content')?.textContent?.trim() || undefined
 
   const badges = Array.from(
     document.querySelectorAll('main [class*="badge"], main .tag, main span, main a')
@@ -45,13 +45,20 @@ const evalJsCallback = (): ScrapedModel => {
     pullsText,
     tagsText,
     tagRows,
-    pageText: document.body?.innerText || ''
+    pageText: document.body?.innerText || '',
+    url: window.location.href
   }
 }
 
-export const scrapeModel = async (win: BrowserWindow, slug: string): Promise<ScrapedModel> => {
-  const url = `https://ollama.com/library/${slug}`
+export const scrapeModel = async (url: string): Promise<ScrapedModel> => {
+  const win = await createHiddenWindow()
   await win.loadURL(url)
 
-  return evalJS(win, evalJsCallback)
+  const res = evalJS(win, evalJsCallback)
+
+  console.log(await res)
+
+  win.destroy()
+
+  return res
 }
