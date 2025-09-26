@@ -25,15 +25,16 @@ export const ModelCard = ({
   pullCount,
   tagsCount,
   lastUpdate,
-  actionGroups
+  actionGroups,
+  className
 }: ModelCardProps): React.JSX.Element => {
   const allSizes = useMemo(() => {
     return [...new Set([...[...(sizes ?? [])], ...[...(availableSizes ?? [])]])].sort()
   }, [availableSizes, sizes])
 
   return (
-    <Card asChild>
-      <Link to={`/model/${name}`} className="hover:border-accent-foreground">
+    <Card asChild className={className}>
+      <Link to={`/model/${name}`}>
         <CardHeader>
           <CardTitle className="flex justify-between">
             <H3>{name}</H3>

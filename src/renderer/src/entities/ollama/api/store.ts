@@ -2,9 +2,13 @@ import { create } from 'zustand'
 import { devtools, persist } from 'zustand/middleware'
 import { OllamaStore } from '../model'
 
-const getDefaultState = (): Pick<OllamaStore, 'remoteModels' | 'localModels'> => ({
+const getDefaultState = (): Pick<
+  OllamaStore,
+  'remoteModels' | 'localModels' | 'favouriteModels'
+> => ({
   remoteModels: [],
-  localModels: []
+  localModels: [],
+  favouriteModels: []
 })
 
 const StoreName = 'OllamaStore'
@@ -43,6 +47,20 @@ const storeCreator = persist(
         set((state) => ({
           ...state,
           localModels
+        }))
+      },
+      addFavouriteModel: (modelName: string) => {
+        set((state) => ({
+          ...state,
+          favouriteModels: [...state.favouriteModels, modelName]
+        }))
+      },
+      removeFavouriteModel: (modelName: string) => {
+        set((state) => ({
+          ...state,
+          favouriteModels: state.favouriteModels.filter(
+            (favouriteModel) => favouriteModel !== modelName
+          )
         }))
       }
     }),

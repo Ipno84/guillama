@@ -1,7 +1,7 @@
 import { ModelResponse } from 'ollama'
 import { ModelCard } from './model-card'
 import { useOllamaStore } from '@renderer/entities/ollama/api/store'
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { DropdownAction, DropdownGroup } from '../typings'
 
 export const LocalModelCard = ({
@@ -9,6 +9,29 @@ export const LocalModelCard = ({
   details,
   modified_at
 }: ModelResponse): React.JSX.Element => {
+  const isFavouriteModel = useOllamaStore((state) => state.favouriteModels.includes(model))
+  const addFavouriteModel = useOllamaStore((state) => state.addFavouriteModel)
+  const removeFavouriteModel = useOllamaStore((state) => state.removeFavouriteModel)
+
+  const toggleFavouriteModel = useCallback(() => {
+    if (isFavouriteModel) {
+      removeFavouriteModel(model)
+    } else {
+      addFavouriteModel(model)
+    }
+  }, [isFavouriteModel, addFavouriteModel, removeFavouriteModel, model])
+
+  const addToFavouriteAction = useMemo<DropdownAction>(
+    () => ({
+      label: isFavouriteModel ? 'Remove from Favourite' : 'Add to Favourite',
+      onClick: (e) => {
+        e.stopPropagation()
+        toggleFavouriteModel()
+      }
+    }),
+    [isFavouriteModel, toggleFavouriteModel]
+  )
+
   const modelName = useMemo(() => model.split(':').at(0), [model])
   const remoteModel = useOllamaStore((state) =>
     state.remoteModels.find((remoteModel) => remoteModel.name === modelName)
@@ -30,24 +53,6 @@ export const LocalModelCard = ({
     }
     actions.push(newChatAction)
 
-    const addToFavoriteAction: DropdownAction = {
-      label: 'Add to Favorite',
-      onClick: (e) => {
-        e.stopPropagation()
-        console.log('Add to Favorite')
-      }
-    }
-    actions.push(addToFavoriteAction)
-
-    const getDetailsAction: DropdownAction = {
-      label: 'Details',
-      onClick: (e) => {
-        e.stopPropagation()
-        console.log('Details')
-      }
-    }
-    actions.push(getDetailsAction)
-
     const pullUpdatesAction: DropdownAction = {
       label: 'Pull Updates',
       onClick: (e) => {
@@ -56,6 +61,8 @@ export const LocalModelCard = ({
       }
     }
     if (needsUpdate) actions.push(pullUpdatesAction)
+
+    actions.push(addToFavouriteAction)
 
     const deleteAction: DropdownAction = {
       label: 'Delete',
@@ -72,7 +79,7 @@ export const LocalModelCard = ({
         actions
       }
     ]
-  }, [needsUpdate])
+  }, [addToFavouriteAction, needsUpdate])
 
   return (
     <ModelCard
@@ -83,6 +90,7 @@ export const LocalModelCard = ({
       lastUpdate={modified_at}
       description={remoteModel?.description}
       actionGroups={actionGroups}
+      className={isFavouriteModel ? 'border-chart-3' : 'hover:border-accent-foreground'}
     />
   )
 }

@@ -23,6 +23,7 @@ export const RemoteModelCard = ({
       tagsCount={tagsCount}
       lastUpdate={lastUpdate}
       availableSizes={sizes}
+      className="hover:border-accent-foreground"
     />
   )
 }
