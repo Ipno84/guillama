@@ -2,6 +2,7 @@ import { ModelBasicInfo } from '@common/entities/ollama'
 
 export type ModelCardProps = ModelBasicInfo & {
   actionGroups?: DropdownGroup[]
+  availableSizes: ModelBasicInfo['sizes']
 }
 
 export type DropdownAction = {

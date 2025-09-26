@@ -11,7 +11,7 @@ declare global {
       health: () => Promise<CheckOllama>
       list: () => Promise<ModelResponse[]>
       ps: () => Promise<ModelResponse[]>
-      remoteList: () => Promise<ItemResponseLike[]>
+      remoteList: (request?: string[]) => Promise<ItemResponseLike[]>
     }
   }
 }

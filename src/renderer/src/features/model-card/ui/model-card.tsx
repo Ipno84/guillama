@@ -13,6 +13,7 @@ import TimeAgo from 'timeago-react'
 import { ModelCardProps } from '../typings'
 import { Clock3, CloudDownload, Tags } from 'lucide-react'
 import { Actions } from './actions'
+import { useMemo } from 'react'
 
 export const ModelCard = ({
   name,
@@ -20,11 +21,16 @@ export const ModelCard = ({
   capabilities,
   badges,
   sizes,
+  availableSizes,
   pullCount,
   tagsCount,
   lastUpdate,
   actionGroups
 }: ModelCardProps): React.JSX.Element => {
+  const allSizes = useMemo(() => {
+    return [...new Set([...[...(sizes ?? [])], ...[...(availableSizes ?? [])]])].sort()
+  }, [availableSizes, sizes])
+
   return (
     <Card asChild>
       <Link to={`/model/${name}`} className="hover:border-accent-foreground">
@@ -51,8 +57,11 @@ export const ModelCard = ({
         </CardContent>
         <CardContent className="flex-1 flex justify-end items-end text-right">
           <div>
-            {sizes?.map((size) => (
-              <Badge key={size} className="ml-2 first:ml-0 mt-2">
+            {allSizes?.map((size) => (
+              <Badge
+                key={size}
+                className={`ml-2 first:ml-0 mt-2 opacity-${sizes?.includes(size) ? '100' : 50}`}
+              >
                 {size}
               </Badge>
             ))}

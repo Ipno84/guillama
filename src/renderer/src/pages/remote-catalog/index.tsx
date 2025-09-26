@@ -1,7 +1,7 @@
 import { Grid } from '@renderer/components/grid'
 import { SectionTitle } from '@renderer/features/section-title'
 import { useOllamaRemoteList } from '@renderer/entities/ollama'
-import { ModelCard } from '@renderer/features/model-card'
+import { RemoteModelCard } from '@renderer/features/model-card'
 
 export const RemoteCatalog = (): React.JSX.Element => {
   const { data: remoteModels } = useOllamaRemoteList()
@@ -25,7 +25,7 @@ export const RemoteCatalog = (): React.JSX.Element => {
             lastUpdate
           }) => {
             return (
-              <ModelCard
+              <RemoteModelCard
                 key={name}
                 name={name}
                 description={description}

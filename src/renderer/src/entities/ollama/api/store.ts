@@ -20,10 +20,24 @@ const storeCreator = persist(
         }))
       },
       addRemoteModels: (remoteModels) => {
-        set((state) => ({
-          ...state,
-          remoteModels
-        }))
+        set((state) => {
+          const indexByName = new Map(state.remoteModels.map((item, i) => [item.name, i]))
+          const result = state.remoteModels.slice()
+
+          for (const item of remoteModels) {
+            const idx = indexByName.get(item.name)
+            if (idx != null) {
+              result[idx] = item
+            } else {
+              result.push(item)
+            }
+          }
+
+          return {
+            ...state,
+            remoteModels: result
+          }
+        })
       },
       setLocalModels: (localModels) => {
         set((state) => ({

@@ -2,12 +2,19 @@ import { ModelBasicInfo } from '@common/entities/ollama'
 import { createHiddenWindow } from './create-hidden-window'
 import { evalJS } from './eval-js'
 
-export const getModelsBasicInfo = async (): Promise<ModelBasicInfo[]> => {
+export const getModelsBasicInfo = async (modelNames?: string[]): Promise<ModelBasicInfo[]> => {
   const win = await createHiddenWindow()
   await win.loadURL('https://ollama.com/library/')
 
   const info = evalJS(win, () => {
-    const modelCards = Array.from(document.querySelectorAll<HTMLLIElement>('[x-test-model]'))
+    let modelCards = Array.from(document.querySelectorAll<HTMLLIElement>('[x-test-model]'))
+
+    if (modelNames) {
+      modelCards = modelCards.filter((modelCard) => {
+        const modelName = modelCard.querySelector('a div:nth-of-type(1) h2 span')?.textContent ?? ''
+        modelNames.includes(modelName)
+      })
+    }
 
     const modelInfos = modelCards.map((modelCard) => {
       const anchor = modelCard.querySelector('a')
@@ -60,8 +67,6 @@ export const getModelsBasicInfo = async (): Promise<ModelBasicInfo[]> => {
 
     return modelInfos
   })
-
-  console.log(await info)
 
   win.destroy()
 
