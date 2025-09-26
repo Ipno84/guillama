@@ -13,18 +13,32 @@ export const RemoteCatalog = (): React.JSX.Element => {
         hint="The catalog of all the models available in the Ollama libraries, ready to be used"
       />
       <Grid>
-        {remoteModels?.map(({ name, description, capabilities, badges, sizes }) => {
-          return (
-            <ModelCard
-              key={name}
-              name={name}
-              description={description}
-              capabilities={capabilities}
-              badges={badges}
-              sizes={sizes}
-            />
-          )
-        })}
+        {remoteModels?.map(
+          ({
+            name,
+            description,
+            capabilities,
+            badges,
+            sizes,
+            pullCount,
+            tagsCount,
+            lastUpdate
+          }) => {
+            return (
+              <ModelCard
+                key={name}
+                name={name}
+                description={description}
+                capabilities={capabilities}
+                badges={badges}
+                sizes={sizes}
+                pullCount={pullCount}
+                tagsCount={tagsCount}
+                lastUpdate={lastUpdate}
+              />
+            )
+          }
+        )}
       </Grid>
     </>
   )

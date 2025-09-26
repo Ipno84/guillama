@@ -1,6 +1,7 @@
-import { type ListResponse } from 'ollama'
+import { type ModelResponse } from 'ollama'
 
-export const list = async (): Promise<ListResponse> => {
+export const list = async (): Promise<ModelResponse[]> => {
   const { default: ollama } = await import('ollama')
-  return await ollama.list()
+  const listRespose = await ollama.list()
+  return listRespose.models
 }

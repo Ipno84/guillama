@@ -17,7 +17,6 @@ export const SectionTitle = ({
   const scrollDirection = useScrollDirection()
 
   const expanded = useMemo(() => scrollDirection === 'up', [scrollDirection])
-  console.log(expanded)
 
   return (
     <section className={sectionTitleVariants({ align, expanded })}>

@@ -6,7 +6,10 @@ export const CardFooter = ({
 }: React.ComponentProps<'div'>): React.JSX.Element => (
   <div
     data-slot="card-footer"
-    className={cn('flex items-center px-6 [.border-t]:pt-6', className)}
+    className={cn(
+      'flex items-center px-6 [.border-t]:pt-6 text-card-foreground text-sm',
+      className
+    )}
     {...props}
   />
 )
